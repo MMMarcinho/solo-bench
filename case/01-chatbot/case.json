@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "case_id": "01-chatbot",
+  "task_version": "1.1.0",
+  "title": "Adapt the existing chatbot for mobile",
+  "source": {
+    "repository": "https://github.com/MMMarcinho/chatbot-baseline",
+    "commit": null,
+    "revision": "01-chatbot-local-design-avatar-v2",
+    "upstream_commit": "609b54a171d6536357810ec9baf1d0785c30fff1",
+    "directory": "source",
+    "sha256_manifest": "source.sha256.json",
+    "sanitization": "Desktop visual design derivative with user-provided generated avatar assets; no private reference source or assets copied",
+    "license": "Upstream has no explicit license grant. Owner authorized this public benchmark use; no open-source license is granted."
+  },
+  "entrypoint": "TASK.md",
+  "setup": "SETUP.md",
+  "runtime": {
+    "node": ">=20",
+    "package_manager": "npm",
+    "install": [
+      "npm",
+      "ci",
+      "--ignore-scripts",
+      "--legacy-peer-deps"
+    ],
+    "dev_port": 4173,
+    "backend_required": false,
+    "credentials_required": false
+  },
+  "protected_fixtures": [
+    "src/eval/mockConversation.ts"
+  ],
+  "evaluation_hooks": [
+    "data-testid=eval-viewport",
+    "data-testid=session-list",
+    "data-testid=conversation",
+    "data-conversation-id",
+    "data-loading",
+    "window.__CODE_AGENT_EVAL__"
+  ],
+  "viewports": {
+    "phones": [
+      [
+        360,
+        800
+      ],
+      [
+        390,
+        844
+      ],
+      [
+        402,
+        874
+      ],
+      [
+        430,
+        932
+      ]
+    ],
+    "additional": [
+      [
+        768,
+        1024
+      ],
+      [
+        844,
+        390
+      ]
+    ],
+    "desktop": [
+      [
+        1280,
+        900
+      ],
+      [
+        1440,
+        900
+      ]
+    ]
+  }
+}

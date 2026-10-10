@@ -1,0 +1,346 @@
+@import '../styles/variables.less';
+@import '../styles/mixins.less';
+
+@prefix: ~'@{class-prefix}-chat-sender';
+
+// 文本引用
+.quote() {
+  position: relative;
+
+  /* 极淡的内嵌背景 */
+  padding: 12px 16px 12px 28px;
+
+  /* 左侧留更多空隙给引号 */
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #6b7280;
+  overflow: hidden;
+  font-style: italic;
+
+  &--scroll {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 60px;
+  }
+
+  &::before {
+    content: '“';
+    font-family: Georgia, serif;
+
+    /* 衬线体引号，更有气质 */
+    font-size: 48px;
+    color: rgba(0, 0, 0, 8%);
+
+    /* 非常淡的颜色 */
+    position: absolute;
+    top: -10px;
+    left: 4px;
+    pointer-events: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: rgba(0, 0, 0, 10%);
+
+    /* 左侧装饰条，与背景融合 */
+  }
+}
+
+.@{prefix} {
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  font-family: inter, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif;
+
+  .ant-sender {
+    border-color: #edeef1;
+    background-color: #fff;
+    box-shadow: inset 0 0 0 1px rgba(18, 24, 40, 0%),
+      0 1px 2px rgba(18, 24, 40, 3%);
+    min-width: 108px;
+    transition: box-shadow 0.22s cubic-bezier(0.25, 1, 0.5, 1),
+      transform 0.22s cubic-bezier(0.25, 1, 0.5, 1);
+
+    &:not(.ant-sender-switch):not(.ant-sender-header) {
+      /* 收敛输入框外壳圆角，避免附件展开后底部轮廓过于圆润。 */
+      border-radius: calc(var(--ant-border-radius) * 3);
+    }
+
+    /* 激活态只保留轻量层级变化，不额外加彩色边框和重投影。 */
+    &:focus-within {
+      border-color: #edeef1;
+      box-shadow: inset 0 0 0 1px rgba(18, 24, 40, 7%),
+        0 2px 5px rgba(18, 24, 40, 5%);
+      transform: translateY(-0.5px);
+    }
+
+    .ant-sender-header {
+      border: none;
+      border-radius: calc(var(--ant-border-radius) * 3);
+    }
+
+    .ant-sender-input.ant-input-borderless:focus-visible {
+      outline: none;
+    }
+
+    /* 避免 autoSize 在空输入时按多行 placeholder 计算输入框高度。 */
+    .ant-sender-input:placeholder-shown {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .@{prefix}__button-group {
+      .@{prefix}__send-button {
+        background-color: #5865f2;
+
+        /* 输入为空时使用淡灰底，明确表达不可发送状态。 */
+        &.ant-sender-actions-btn-disabled {
+          background: #e5e7eb;
+        }
+      }
+
+      .@{prefix}__loading-button.ant-sender-actions-btn-disabled {
+        /* 禁用加载态保留轮廓和图标，不使用实色底避免抢占输入区视觉焦点。 */
+        border-color: rgba(28, 31, 35, 16%);
+        background: transparent;
+        color: rgba(28, 31, 35, 38%);
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .ant-btn.ant-btn-icon-only {
+    .@{prefix}__upload {
+      font-size: 14px;
+      color: rgba(28, 31, 35, 45%);
+      display: flex;
+      align-items: center;
+    }
+
+    &:disabled {
+      .@{prefix}__upload {
+        color: rgba(28, 31, 35, 25%);
+      }
+    }
+  }
+
+  &__drop-area {
+    position: absolute;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 16px;
+    border: 2px dashed rgba(88, 101, 242, 55%);
+    border-radius: inherit;
+    background: rgba(246, 247, 251, 92%);
+    backdrop-filter: blur(6px);
+    color: rgba(28, 31, 35, 88%);
+    pointer-events: none;
+  }
+
+  &__drop-placeholder {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  &__drop-placeholder-icon {
+    font-size: 24px;
+    line-height: 1;
+  }
+
+  &__drop-placeholder-title {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+  }
+
+  &__drop-placeholder-description {
+    color: rgba(28, 31, 35, 58%);
+    font-size: 13px;
+    line-height: 20px;
+  }
+
+  &__model-select {
+    min-width: 116px;
+    max-width: 180px;
+
+    .ant-select-selector {
+      padding-inline: 8px !important;
+    }
+
+    .ant-select-selection-item {
+      font-weight: 500;
+    }
+  }
+
+  &--single-line-action {
+    .ant-sender {
+      .ant-sender-content {
+        /* 输入框增高时，上传和发送操作保持贴近输入区底部。 */
+        align-items: flex-end;
+        padding-block: 6px;
+      }
+
+      .ant-sender-prefix,
+      .ant-sender-actions-list {
+        display: flex;
+        align-items: center;
+      }
+
+      .ant-sender-input {
+        min-height: 32px;
+        resize: none;
+      }
+    }
+
+    .@{prefix}__upload-row,
+    .@{prefix}__button-group {
+      flex: none;
+    }
+  }
+
+  &__quote-wrapper {
+    position: relative;
+    overflow: visible;
+  }
+
+  &__quote {
+    .quote();
+
+    background: rgba(0, 0, 0, 4%);
+  }
+
+  &__quote-remove-icon {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    opacity: 0;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 45%);
+    cursor: pointer;
+    pointer-events: none;
+    transition: color 0.3s ease, opacity 0.2s ease, transform 0.3s ease;
+    background: #fff;
+    border-radius: 50%;
+    z-index: 1;
+
+    [data-theme='dark'] & {
+      color: rgba(255, 255, 255, 45%);
+      background: #141414;
+    }
+
+    &:hover {
+      color: #ff4d4f;
+      transform: scale(1.1);
+
+      [data-theme='dark'] & {
+        color: #ff7875;
+      }
+    }
+  }
+
+  &__quote-wrapper:hover &__quote-remove-icon,
+  &__quote-remove-icon:focus-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  &__command-panel {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 8px);
+    left: 0;
+    z-index: 10;
+    overflow: hidden;
+    border: 1px solid rgba(28, 31, 35, 8%);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 18px 50px rgba(28, 31, 35, 16%);
+
+    &__title {
+      padding: 6px 12px;
+      color: rgba(28, 31, 35, 45%);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 16px;
+    }
+
+    &__list {
+      max-height: 360px;
+      padding: 2px 0;
+      overflow-y: auto;
+    }
+
+    &__item {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      width: 100%;
+      padding: 6px 10px;
+      overflow: hidden;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      color: #5261f5;
+      cursor: pointer;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+        'Liberation Mono', 'Courier New', monospace;
+      font-size: 12px;
+      line-height: 16px;
+      text-align: left;
+
+      &:hover,
+      &--active {
+        background: #5865f214;
+      }
+    }
+
+    &__item-label,
+    &__item-extra {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &__item-extra {
+      max-width: 62%;
+      margin-inline-start: auto;
+      color: rgba(28, 31, 35, 56%);
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 400;
+      text-align: right;
+    }
+
+    &__footer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 12px;
+      align-items: center;
+      padding: 4px 10px 6px;
+      border-top: 1px solid rgba(28, 31, 35, 7%);
+      color: rgba(28, 31, 35, 50%);
+      font-size: 10px;
+      line-height: 14px;
+    }
+  }
+}
+
+.@{prefix}__model-popup {
+  min-width: 144px;
+}

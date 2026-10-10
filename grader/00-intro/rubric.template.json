@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "case_id": "02-example",
+  "grader_version": "1.0.0",
+  "criteria": [
+    {
+      "id": "core_behavior",
+      "method": "code",
+      "max_score": 60
+    },
+    {
+      "id": "usability",
+      "method": "agent",
+      "max_score": 40
+    }
+  ],
+  "gates": []
+}

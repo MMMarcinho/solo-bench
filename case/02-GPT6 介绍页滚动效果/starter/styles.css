@@ -1,0 +1,22 @@
+/* Minimal starter styles. The candidate must implement the reference layout,
+   moving title and pointer, blue per-line highlights, and responsive behavior. */
+:root{font-family:Arial,"PingFang SC",sans-serif;color:#171717;background:#fff}
+*{box-sizing:border-box}
+html{scroll-behavior:auto}
+body{margin:0}
+.site-header{display:flex;justify-content:space-between;padding:18px 4%;border-bottom:1px solid #ddd}
+.site-header nav{display:flex;gap:20px}
+a{color:inherit}
+main{max-width:1000px;margin:auto;padding:24px}
+.hero{padding:75px 0}
+.hero h1{font-size:clamp(38px,6vw,70px);line-height:1.1}
+.media-placeholder{height:260px;background:#e6e6e6;display:grid;place-items:center;margin-top:60px}
+article{max-width:720px;margin:0 auto}
+article section{padding:120px 0}
+.lead{font-size:24px;line-height:1.4;margin:100px 0}
+article h2{font-size:28.5352px;line-height:37.6665px;font-weight:500}
+[data-title-stage]{position:relative}
+[data-title-phrase]{display:inline-block}
+[data-title-pointer]{position:absolute;left:0;top:0}
+article p{line-height:1.6;margin:35px 0}
+footer{padding:40px 4%;border-top:1px solid #ddd}

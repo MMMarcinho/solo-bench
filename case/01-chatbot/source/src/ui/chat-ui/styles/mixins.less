@@ -1,0 +1,185 @@
+// 多行文本溢出控制
+.multiLineTextOverFlow(@line) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  // 不规范的CSS属性，仅适用于webkit内核
+  display: box;
+  -webkit-line-clamp: @line;
+  -webkit-box-orient: vertical;
+}
+
+// 单行文本溢出
+.singleLineTextOverFlow() {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// Markdown 内容通用样式
+.markdownContent() {
+  --margin-block: 0 0 8px 0;
+  --margin-ul-ol: 0 0 8px 18px;
+  --margin-li: 2px 0;
+  --margin-pre: 8px 0;
+  --padding-code-inline: 1px 4px;
+  --margin-code-inline: 0 2px;
+  --code-inline-text: 12px;
+  --table-margin: 8px 0;
+
+  color: inherit;
+  line-height: inherit;
+  word-break: break-word;
+
+  a {
+    color: #1677ff;
+  }
+
+  pre {
+    position: relative;
+    padding: 8px;
+    overflow: auto;
+    background: #f6f8fa;
+    border-radius: 6px;
+  }
+
+  code {
+    background: rgba(0, 0, 0, 6%);
+  }
+
+  pre code {
+    background: transparent;
+  }
+}
+
+// XMarkdown 内置元素样式覆盖
+.markdownBuiltinStyle() {
+  line-height: 1.75em;
+
+  // 覆盖 XMarkdown 默认样式变量
+  --margin-ul-ol: 8px 0;
+  --padding-ul-ol: 0 0 0 20px;
+  --md-h1-font-size: 20px;
+  --md-h1-margin-top: 0.5em;
+  --md-h2-font-size: 18px;
+  --md-h2-margin-top: 0.75em;
+  --md-h3-font-size: 16px;
+  --md-h3-margin-top: 20px;
+  --td-th-padding: 8px 10px;
+
+  h1:not([class]),
+  h2:not([class]),
+  h3:not([class]),
+  h4:not([class]),
+  h5:not([class]),
+  h6:not([class]) {
+    line-height: 1.5em;
+    margin-bottom: 12px;
+    color: #222;
+  }
+
+  h1:not([class]) {
+    font-size: var(--md-h1-font-size);
+    margin-top: var(--md-h1-margin-top);
+  }
+
+  h2:not([class]) {
+    font-size: var(--md-h2-font-size);
+    margin-top: var(--md-h2-margin-top);
+  }
+
+  h3:not([class]),
+  h4:not([class]),
+  h5:not([class]),
+  h6:not([class]) {
+    font-size: var(--md-h3-font-size);
+    margin-top: var(--md-h3-margin-top);
+  }
+
+  h4:not([class]),
+  h5:not([class]),
+  h6:not([class]) {
+    margin-bottom: 8px;
+  }
+
+  a:not([class]) {
+    color: rgb(0, 87, 255);
+    text-decoration: none;
+  }
+
+  ul > li ul,
+  ol > li ol {
+    margin: 4px 0;
+  }
+
+  ul > li li {
+    list-style-type: circle;
+  }
+
+  hr {
+    border-top: none;
+    border-left: 0;
+    border-right: 0;
+    border-bottom-color: rgba(28, 31, 35, 8%);
+  }
+
+  code:not([class]) {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 6%);
+  }
+
+  p:not([class]) {
+    margin: 0;
+  }
+
+  blockquote:not([class]) {
+    border-left: 6px solid rgb(208, 215, 222);
+    padding: 0 24px;
+    margin: 12px 0;
+    color: #000;
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  img:not([class]) {
+    display: block;
+    max-width: 400px;
+    border-radius: 8px;
+    object-fit: contain;
+  }
+
+  table:not([class]) {
+    max-width: 100%;
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 8%);
+
+    td:not([class]) {
+      min-width: 80px;
+      border-right: 1px solid rgba(0, 0, 0, 8%);
+
+      &:last-child {
+        border-right: none;
+      }
+    }
+
+    tr:not([class]) {
+      border-top: 1px solid rgba(0, 0, 0, 8%);
+    }
+  }
+
+  th:not([class]),
+  td:not([class]) {
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  thead:not([class]) {
+    background-color: rgb(242, 242, 242);
+    color: #374151;
+    font-weight: 600;
+  }
+
+  &:not(.x-md-disable-all):not(.x-md-disable-table) table:not(pre) {
+    border-top: none;
+  }
+}

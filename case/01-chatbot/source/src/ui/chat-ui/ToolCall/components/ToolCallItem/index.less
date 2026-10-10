@@ -1,0 +1,214 @@
+@import '../../../styles/variables.less';
+@import '../../../styles/mixins.less';
+
+@prefix: ~'@{class-prefix}-tool-call';
+@code-block-prefix: ~'@{class-prefix}-code-block';
+@shell-output-prefix: ~'@{class-prefix}-shell-output';
+@diff-viewer-prefix: ~'@{class-prefix}-diff-viewer';
+
+.@{prefix} {
+  &__item {
+    color: #888;
+    font-size: 12px;
+    line-height: 18px;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  &__summary {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    gap: 6px;
+    padding: 4px;
+    border-radius: 6px;
+    color: #888;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    transition: color 160ms cubic-bezier(0.2, 0, 0, 1);
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &:hover {
+      color: #1a1c1f;
+    }
+  }
+
+  &__status {
+    color: #888;
+    flex: none;
+    width: 12px;
+    height: 12px;
+    transition: color 160ms cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  &__summary:hover &__status {
+    color: #1a1c1f;
+  }
+
+  &__title {
+    position: relative;
+    min-width: 0;
+    color: currentcolor;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: normal !important;
+
+    b {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+        'Liberation Mono', 'Courier New', monospace;
+      font-weight: 400;
+      color: currentcolor;
+    }
+  }
+
+  &__duration {
+    flex: none;
+    color: rgba(28, 31, 35, 45%);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  &__arrow {
+    color: currentcolor;
+    flex: none;
+    width: 12px;
+    height: 12px;
+    transition: transform 160ms cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  &__item[open] > &__summary > &__arrow {
+    transform: rotate(90deg);
+  }
+
+  &__content {
+    display: grid;
+    gap: 8px;
+    margin: 2px 0 0 18px;
+    min-width: 0;
+    max-width: calc(100% - 18px);
+    animation: tool-call-expand 200ms ease;
+  }
+
+  &__io {
+    min-width: 0;
+    background: #f6f8fa;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 6%);
+    overflow: hidden;
+  }
+
+  &__io-title {
+    padding: 6px 12px;
+    margin-bottom: 0;
+    color: rgba(28, 31, 35, 45%);
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    background: rgba(0, 0, 0, 3%);
+  }
+
+  &__payload {
+    border-radius: 0;
+    max-width: 100%;
+    opacity: 1;
+    overflow-x: auto;
+    overflow-y: visible;
+
+    &.@{code-block-prefix} {
+      display: block;
+      padding: 8px 12px !important;
+      background: transparent !important;
+      border-radius: 0;
+      color: #1f2328;
+      // 工具输出过长时限制详情高度，在容器内滚动查看。
+      max-height: 320px;
+      overflow: auto;
+    }
+  }
+
+  &__payload.@{shell-output-prefix} {
+    color: #24292f;
+  }
+
+  &__payload.@{shell-output-prefix} &__plain {
+    max-height: none;
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+    color: #24292f;
+    overflow-x: auto;
+    overflow-y: visible;
+  }
+
+  &__payload.@{diff-viewer-prefix} {
+    // 工具调用中的差异详情保持固定高度，避免大 diff 撑开会话列表。
+    height: 320px;
+    margin: 0;
+    background: transparent;
+    overflow: auto;
+  }
+
+  &__output-sections {
+    display: grid;
+    gap: 8px;
+    min-width: 0;
+    padding: 8px 12px;
+  }
+
+  &__content,
+  &__payload,
+  &__payload * {
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-corner {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 15%);
+      border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 25%);
+    }
+  }
+
+  &__item--streaming > &__summary > &__title {
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        transparent 35%,
+        rgba(255, 255, 255, 75%) 50%,
+        transparent 65%,
+        transparent 100%
+      );
+      background-size: 200% 100%;
+      background-repeat: no-repeat;
+      animation: tool-call-shimmer 2s ease-in-out infinite;
+      pointer-events: none;
+    }
+  }
+}

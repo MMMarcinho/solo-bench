@@ -1,0 +1,6 @@
+{
+  "schema_version": "1.0",
+  "case_id": "02-GPT6 介绍页滚动效果",
+  "code": {"entrypoint": "code/run.mjs", "timeout_ms": 240000},
+  "agent": {"entrypoint": "agent/run.mjs", "prompt": "agent/JUDGE_PROMPT.md", "rubric": "agent/RUBRIC.md", "timeout_ms": 180000}
+}

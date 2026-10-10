@@ -1,0 +1,70 @@
+.viewport {
+  width: 100vw;
+  height: 100vh;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+// 桌面工作区采用本地组件参考的轻量层级；窄屏留给适配任务。
+.desktopHeader {
+  display: none;
+}
+
+@media (min-width: 1000px) {
+  .viewport {
+    padding: 18px;
+    background: #edf0f5;
+  }
+
+  .desktopHeader {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 106px;
+    padding: 22px 36px 18px;
+    border-bottom: 1px solid #edf0f4;
+    background: #fff;
+  }
+
+  .desktopHeaderEyebrow {
+    color: #8f96a8;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+  }
+
+  .desktopHeaderIdentity h1 {
+    margin: 7px 0 3px;
+    color: #242936;
+    font-size: 21px;
+    font-weight: 680;
+    line-height: 1.25;
+  }
+
+  .desktopHeaderIdentity p {
+    color: #8a90a0;
+    font-size: 12px;
+  }
+
+  .desktopHeaderStatus {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border: 1px solid #e7eaf0;
+    border-radius: 999px;
+    color: #5d6474;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .statusDot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #38b99b;
+    box-shadow: 0 0 0 3px #e5f7f1;
+  }
+}

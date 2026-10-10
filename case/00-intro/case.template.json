@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "case_id": "02-example",
+  "task_version": "1.0.0",
+  "title": "Replace with concrete task",
+  "source": {
+    "repository": "https://example.com/replace-with-real-repository",
+    "commit": "REPLACE_WITH_FULL_COMMIT",
+    "directory": "source",
+    "sha256_manifest": "source.sha256.json"
+  },
+  "entrypoint": "TASK.md",
+  "setup": "SETUP.md"
+}

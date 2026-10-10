@@ -1,0 +1,7 @@
+# Code grader
+
+Use `node grader/run.mjs --case '02-GPT6 介绍页滚动效果' --mode code --candidate PATH --output NEW_PATH [--chromium PATH]`. The unified launcher owns fingerprint, versions, result aggregation, evidence manifest, and pending/null semantics.
+
+The adapter serves the candidate on an assigned localhost port in a fresh Chromium context. At eleven scroll positions it measures the “智能界面” phrase translation and rotation, the fixed “推出” baseline, body stability, pointer geometry and contact, and the approach/drag/release stages. It samples a 10.5-second pause and upward reversal. It verifies pointer pixels by comparing screenshots with the pointer visible and hidden; DOM geometry alone does not prove a drawn cursor. It samples screenshot pixels for blue coverage across actual wrapped text lines at three phases for each selection, including pause and reversal. It then resizes desktop to phone and back, checks overflow and line reflow, and checks reduced-motion behavior in a separate context. Artifacts include screenshots and numerical measurements. No source keyword or candidate-reported score proves a behavior.
+
+The public `data-title-*` and `data-effect` hooks identify observable targets. If a valid candidate changes its DOM representation so that measured geometry cannot be obtained, classify the evaluator compatibility issue as blocked for human review instead of declaring a behavior failure. Chromium cannot establish the quality of the pointer shape or editorial polish; those are agent-owned.

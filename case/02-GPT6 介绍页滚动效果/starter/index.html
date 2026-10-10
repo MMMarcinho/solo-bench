@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>02-GPT6 介绍页滚动效果 — starter</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script defer src="./motion.js"></script>
+</head>
+<body>
+  <a href="#main">跳至正文</a>
+  <header class="site-header"><span>OpenAI</span><nav aria-label="主导航"><a href="#intro">文章</a><a href="#title-demo">智能界面</a><a href="#notes">说明</a></nav></header>
+  <main id="main">
+    <section class="hero" id="intro">
+      <p>产品 · 发布 · 2026 年 10 月</p>
+      <h1>让每个人都能使用 GPT‑6 和智能界面</h1>
+      <p>这是原创示例文案。请以指定参考页的布局与动效关系为目标完成页面。</p>
+      <div class="media-placeholder" role="img" aria-label="待设计的辅助媒体区域">辅助媒体区域</div>
+    </section>
+    <article>
+      <p class="lead">一段介绍文字将读者引向标题。页面应有清楚的文章层级、留白与阅读节奏。</p>
+      <section id="title-demo">
+        <h2 data-title-anchor><span data-title-fixed>推出</span><span data-title-stage><span data-title-phrase>智能界面</span><span data-title-pointer aria-hidden="true"></span></span></h2>
+        <p data-static-body>标题下方的正文始终保持静止。指针先靠近末字，接触后拖动“智能界面”归位。</p>
+        <p data-effect="highlight" data-effect-id="h1"><span class="highlight-copy">好的界面给每句话留出空间，让内容随着阅读逐行显现。</span></p>
+      </section>
+      <section id="rhythm"><h2>阅读节奏</h2>
+        <p data-effect="move" data-effect-id="m1"><span class="motion-copy">一个想法可以慢慢走到眼前。</span></p>
+        <p>向下移动一点，画面就前进一步；停住时保持中途状态，向上返回时沿原路撤回。</p>
+        <p data-effect="highlight" data-effect-id="h2"><span class="highlight-copy">阅读进度属于读者。蓝色从左到右逐行增长，页面停住时也停在原处。</span></p>
+        <p data-effect="move" data-effect-id="m2"><span class="motion-copy">页面在你停下的地方停下。</span></p>
+        <p data-effect="move" data-effect-id="m3"><span class="motion-copy">每次回滚都能重新看见来路。</span></p>
+      </section>
+      <section id="notes"><h2>细节与可访问性</h2>
+        <p data-effect="highlight" data-effect-id="h3"><span class="highlight-copy">指针贴近蓝色前缘，每一行结束后才走向下一行。</span></p>
+        <p data-effect="move" data-effect-id="m4"><span class="motion-copy">让更多人都能轻松阅读。</span></p>
+        <p>请在窄屏、resize 和减少动态效果的偏好下保持内容可用。</p>
+      </section>
+    </article>
+  </main>
+  <footer>02-GPT6 介绍页滚动效果 · starter</footer>
+</body>
+</html>

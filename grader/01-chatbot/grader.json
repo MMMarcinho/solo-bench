@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "case_id": "01-chatbot",
+  "code": {
+    "entrypoint": "code/run.mjs",
+    "timeout_ms": 180000
+  },
+  "agent": {
+    "prompt": "agent/JUDGE_PROMPT.md",
+    "rubric": "agent/RUBRIC.md",
+    "timeout_ms": 180000,
+    "entrypoint": "agent/run.mjs"
+  }
+}

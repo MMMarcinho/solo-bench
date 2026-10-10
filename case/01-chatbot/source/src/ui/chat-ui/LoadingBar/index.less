@@ -1,0 +1,104 @@
+@import '../styles/variables.less';
+@import '../styles/mixins.less';
+
+@prefix: ~'@{class-prefix}-loading-bar';
+
+.@{prefix} {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(28, 31, 35, 64%);
+  font-size: 14px;
+  line-height: 20px;
+  -webkit-font-smoothing: antialiased;
+  padding: 8px 12px;
+
+  &__icon {
+    display: grid;
+    grid-template-columns: repeat(5, 3px);
+    grid-template-rows: repeat(5, 3px);
+    flex: none;
+    place-content: center;
+  }
+
+  &__dot {
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: rgba(28, 31, 35, 10%);
+    // 同一条左上到右下的斜线使用相同延迟，实现斜向刷光。
+    animation: loading-bar-dot-pulse 1.8s cubic-bezier(0.2, 0, 0, 1) infinite;
+  }
+
+  &__text {
+    position: relative;
+    display: inline-block;
+    min-width: 0;
+    color: currentcolor;
+    overflow: hidden;
+
+    // 用移动高光覆盖文字区域，形成轻量闪光效果。
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: -45%;
+      width: 45%;
+      background: linear-gradient(
+        100deg,
+        rgba(255, 255, 255, 0%) 0%,
+        rgba(255, 255, 255, 72%) 50%,
+        rgba(255, 255, 255, 0%) 100%
+      );
+      transform: translateX(0);
+      animation: loading-bar-text-shine 1.8s cubic-bezier(0.2, 0, 0, 1) infinite;
+      pointer-events: none;
+    }
+  }
+
+  &__timer {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@keyframes loading-bar-text-shine {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(320%);
+  }
+}
+
+@keyframes loading-bar-dot-pulse {
+  0%,
+  78%,
+  100% {
+    background: rgba(28, 31, 35, 10%);
+    box-shadow: none;
+    opacity: 0.56;
+    transform: scale(1);
+  }
+
+  16% {
+    background: rgba(28, 31, 35, 32%);
+    box-shadow: 0 0 5px rgba(28, 31, 35, 8%);
+    opacity: 0.76;
+    transform: scale(1.18);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .@{prefix} {
+    &__dot {
+      animation: none;
+    }
+
+    &__text::after {
+      animation: none;
+      opacity: 0;
+    }
+  }
+}

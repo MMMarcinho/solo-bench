@@ -1,0 +1,15 @@
+{
+  "name": "solo-bench-graders",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test shared/test/*.test.mjs"
+  },
+  "dependencies": {
+    "playwright": "1.62.1"
+  }
+}

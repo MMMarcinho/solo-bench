@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "case_id": "01-chatbot",
+  "grader_version": "1.1.0",
+  "criteria": [
+    {
+      "id": "build",
+      "max_score": 10,
+      "method": "code"
+    },
+    {
+      "id": "desktop_core",
+      "max_score": 15,
+      "method": "code"
+    },
+    {
+      "id": "mobile_geometry",
+      "max_score": 20,
+      "method": "code"
+    },
+    {
+      "id": "mobile_send",
+      "max_score": 10,
+      "method": "code"
+    },
+    {
+      "id": "long_content",
+      "max_score": 10,
+      "method": "code"
+    },
+    {
+      "id": "drawer",
+      "max_score": 15,
+      "method": "agent"
+    },
+    {
+      "id": "visual",
+      "max_score": 10,
+      "method": "agent"
+    },
+    {
+      "id": "accessibility",
+      "max_score": 5,
+      "method": "agent"
+    },
+    {
+      "id": "real_device",
+      "max_score": 5,
+      "method": "agent"
+    }
+  ],
+  "gates": [
+    {
+      "id": "candidate_build_failure",
+      "any": [
+        {
+          "id": "build",
+          "status": "failed"
+        }
+      ],
+      "cap": 0
+    },
+    {
+      "id": "critical_interaction_failure",
+      "any": [
+        {
+          "id": "desktop_core",
+          "status": "failed"
+        },
+        {
+          "id": "mobile_send",
+          "status": "failed"
+        }
+      ],
+      "cap": 49
+    }
+  ],
+  "pending_policy": "No final score until all code and agent criteria are scored with evidence."
+}

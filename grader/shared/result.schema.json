@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "solo-bench final result v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "case_id",
+    "task_version",
+    "grader_version",
+    "candidate_fingerprint",
+    "criteria",
+    "mode",
+    "score",
+    "source_commit",
+    "run_metadata"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "case_id": {
+      "type": "string"
+    },
+    "task_version": {
+      "type": "string"
+    },
+    "grader_version": {
+      "type": "string"
+    },
+    "candidate_fingerprint": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "criteria": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "method",
+          "status",
+          "score",
+          "max_score",
+          "evidence",
+          "reason"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "method": {
+            "enum": [
+              "code",
+              "agent"
+            ]
+          },
+          "status": {
+            "enum": [
+              "passed",
+              "partial",
+              "failed",
+              "pending",
+              "blocked",
+              "not_run"
+            ]
+          },
+          "score": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "max_score": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "judge": {
+      "type": "object",
+      "required": [
+        "name",
+        "model",
+        "executed_at_utc"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "executed_at_utc": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "mode": {
+      "enum": [
+        "code",
+        "agent",
+        "all"
+      ]
+    },
+    "score": {
+      "type": "object",
+      "required": [
+        "status",
+        "code",
+        "agent",
+        "observed_total",
+        "raw_total",
+        "final_score",
+        "maximum",
+        "cap",
+        "gates"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "complete",
+            "provisional"
+          ]
+        },
+        "final_score": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "raw_total": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "observed_total": {
+          "type": "number"
+        }
+      }
+    },
+    "run_metadata": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "source_commit": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source_revision": {
+      "type": "string"
+    },
+    "upstream_commit": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true,
+  "$comment": "shared/core.mjs additionally enforces exact assigned criterion IDs/methods/maxima, scored status ranges, evidence, versions, identity and judge metadata."
+}

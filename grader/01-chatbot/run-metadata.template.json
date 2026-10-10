@@ -1,0 +1,15 @@
+{
+  "agent_name": null,
+  "model": null,
+  "attempt": null,
+  "started_at_utc": null,
+  "finished_at_utc": null,
+  "agent_elapsed_seconds": null,
+  "cost": {
+    "amount": null,
+    "currency": null,
+    "source": null
+  },
+  "tool_budget": null,
+  "notes": null
+}

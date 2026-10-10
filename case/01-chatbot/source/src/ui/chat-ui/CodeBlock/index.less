@@ -1,0 +1,23 @@
+@import '../styles/variables.less';
+
+@prefix: ~'@{class-prefix}-code-block';
+
+.@{prefix} {
+  display: block;
+  color: #1f2328;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', 'Courier New', monospace;
+  font-size: 12px;
+  line-height: 20px;
+  max-width: 100%;
+  tab-size: 2;
+  white-space: pre;
+  word-break: normal;
+  overflow: auto;
+
+  :not(pre) > & {
+    padding: 8px;
+    background: #f6f8fa;
+    border-radius: 6px;
+  }
+}

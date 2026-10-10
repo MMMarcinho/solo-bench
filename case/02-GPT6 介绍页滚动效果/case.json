@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "case_id": "02-GPT6 介绍页滚动效果",
+  "task_version": "2.0.0",
+  "title": "02-GPT6 介绍页滚动效果",
+  "source": {
+    "repository": null,
+    "commit": null,
+    "revision": "02-gpt6-zh-minimal-starter-v2",
+    "upstream_commit": "not-applicable",
+    "directory": "starter",
+    "sha256_manifest": "source.sha256.json",
+    "reference_url": "https://openai.com/zh-Hans-CN/index/gpt-6-for-everyone/"
+  },
+  "entrypoint": "TASK.md",
+  "setup": "SETUP.md",
+  "runtime": {
+    "node": ">=20",
+    "package_manager": "none",
+    "backend_required": false,
+    "credentials_required": false
+  },
+  "evaluation_hooks": [
+    "[data-title-anchor]",
+    "[data-title-fixed]",
+    "[data-title-phrase]",
+    "[data-title-pointer]",
+    "[data-static-body]",
+    "[data-effect=highlight]",
+    "[data-effect-id]"
+  ],
+  "viewports": {
+    "desktop": [
+      [
+        1180,
+        757
+      ]
+    ],
+    "phone": [
+      [
+        390,
+        844
+      ]
+    ],
+    "resize": [
+      [
+        1180,
+        757
+      ],
+      [
+        390,
+        844
+      ]
+    ]
+  }
+}
