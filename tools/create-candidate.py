@@ -4,7 +4,7 @@ from pathlib import Path
 import argparse, shutil
 root = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser()
-parser.add_argument('--case', default='01-chatbot', choices=['01-chatbot', '02-GPT6 介绍页滚动效果'])
+parser.add_argument('--case', default='01-chatbot', choices=['01-chatbot', '02-GPT6 介绍页滚动效果', '03-cyberpunk-tactics'])
 parser.add_argument('destination')
 args = parser.parse_args()
 destination = Path(args.destination).expanduser().resolve()

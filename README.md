@@ -2,6 +2,8 @@
 
 一个可扩展的 coding-agent benchmark。包含 `01-chatbot` 移动端适配题和 `02-GPT6 介绍页滚动效果` 滚动文章动效题；两题共用 `grader/run.mjs`、结果 schema、候选指纹和 code/agent 分工。根目录 `index.html` 是书册目录，可进入 Case 02 的本地参考效果。Case 01 **没有实现移动端答案**；原始上游版本见 [`chatbot-baseline` 的固定 commit](https://github.com/MMMarcinho/chatbot-baseline/tree/609b54a171d6536357810ec9baf1d0785c30fff1)。
 
+新增的 [Case 03：霓虹断线](case/03-cyberpunk-tactics/TASK.md) 是纯 HTML 赛博朋克战棋题目包，当前仅完成出题与空白起点，尚无参考答案或自动评分器。
+
 ```text
 solo-bench/
 ├── assets/                       # 两张生成头像原图
@@ -102,3 +104,14 @@ node grader/run.mjs --case '02-GPT6 介绍页滚动效果' --mode all \
 ```
 
 Case 02 复用既有结果格式与 `pending/null` 语义。中文标题“推出智能界面”的指针接触、拖动、释放、暂停及逆向滚动由 Chromium 独立采样；蓝色逐行高亮、窄屏、resize 和 reduced-motion 也由 code adapter 验证。验证摘要见 [`VALIDATION-SUMMARY.md`](VALIDATION-SUMMARY.md)。未调用 judge 时 agent 项保持 pending，`final_score` 为 null。
+
+## Case 03：霓虹断线 · 赛博朋克战棋
+
+题目要求用原生 HTML/CSS/JS 实现三人小队对抗企业安保的回合制战棋，涵盖赛博朋克视觉、寻路、AP、攻击、确定性敌方行为、胜负与重开。公开规则、验收流程与只读观察接口见 [TASK.md](case/03-cyberpunk-tactics/TASK.md)，运行与发题方法见 [SETUP.md](case/03-cyberpunk-tactics/SETUP.md)。
+
+```bash
+python3 tools/verify-source.py --case 03-cyberpunk-tactics
+python3 tools/create-candidate.py --case 03-cyberpunk-tactics /tmp/cyberpunk-candidate
+```
+
+`starter/` 仅提供空白 HTML，不是游戏实现。本题暂未接入统一评分入口；不要对本题执行 `grader/run.mjs`。

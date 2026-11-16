@@ -4,7 +4,7 @@ from pathlib import Path
 import argparse, hashlib, json, sys
 root = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser()
-parser.add_argument('--case', default='01-chatbot', choices=['01-chatbot', '02-GPT6 介绍页滚动效果'])
+parser.add_argument('--case', default='01-chatbot', choices=['01-chatbot', '02-GPT6 介绍页滚动效果', '03-cyberpunk-tactics'])
 args = parser.parse_args()
 case = root / 'case' / args.case
 expected = json.loads((case / 'source.sha256.json').read_text())

@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "case_id": "03-cyberpunk-tactics",
+  "task_version": "1.0.0",
+  "title": "霓虹断线：赛博朋克战棋",
+  "source": {
+    "repository": null,
+    "commit": null,
+    "revision": "03-cyberpunk-empty-html-v1",
+    "upstream_commit": "not-applicable",
+    "directory": "starter",
+    "sha256_manifest": "source.sha256.json"
+  },
+  "entrypoint": "TASK.md",
+  "setup": "SETUP.md",
+  "runtime": {"package_manager": "none", "backend_required": false, "credentials_required": false},
+  "evaluation_hooks": ["window.cyberTactics.getState()", "[data-cell='x,y']", "[data-action='end-turn']", "[data-action='restart']", "[data-game-status]", "[data-log]"],
+  "viewports": {"desktop": [[1440, 900]], "phone": [[390, 844]]}
+}
