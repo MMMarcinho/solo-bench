@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "case_id": "04-creation-dialog-race",
+  "task_version": "1.0.0",
+  "title": "双模式创建弹窗与异步竞态",
+  "source": {
+    "repository": null,
+    "commit": null,
+    "revision": "04-creation-dialog-race-starter-v1",
+    "upstream_commit": "not-applicable",
+    "directory": "starter",
+    "sha256_manifest": "source.sha256.json"
+  },
+  "entrypoint": "TASK.md",
+  "setup": "SETUP.md",
+  "runtime": { "package_manager": "none", "backend_required": false, "credentials_required": false },
+  "evaluation_hooks": ["[data-testid]", "GET /api/templates/:id", "POST /api/projects"]
+}

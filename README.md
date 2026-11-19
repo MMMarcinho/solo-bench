@@ -1,6 +1,6 @@
 # solo-bench
 
-一个可扩展的 coding-agent benchmark。包含 `01-chatbot` 移动端适配题和 `02-GPT6 介绍页滚动效果` 滚动文章动效题；两题共用 `grader/run.mjs`、结果 schema、候选指纹和 code/agent 分工。根目录 `index.html` 是书册目录，可进入 Case 02 的本地参考效果。Case 01 **没有实现移动端答案**；原始上游版本见 [`chatbot-baseline` 的固定 commit](https://github.com/MMMarcinho/chatbot-baseline/tree/609b54a171d6536357810ec9baf1d0785c30fff1)。
+一个可扩展的 coding-agent benchmark。包含 `01-chatbot` 移动端适配题、`02-GPT6 介绍页滚动效果` 滚动文章动效题，以及 `04-creation-dialog-race` 双模式创建表单异步竞态题。Case 01/02 共用 code/agent 分工；Case 04 使用 code 评分。三题共用 `grader/run.mjs`、结果 schema 与候选指纹。根目录 `index.html` 是书册目录，可进入 Case 02 的本地参考效果。Case 01 **没有实现移动端答案**；原始上游版本见 [`chatbot-baseline` 的固定 commit](https://github.com/MMMarcinho/chatbot-baseline/tree/609b54a171d6536357810ec9baf1d0785c30fff1)。
 
 新增的 [Case 03：霓虹断线](case/03-cyberpunk-tactics/TASK.md) 是纯 HTML 赛博朋克战棋题目包，当前仅完成出题与空白起点，尚无参考答案或自动评分器。
 
@@ -13,19 +13,22 @@ solo-bench/
 │   │   ├── TASK.md / SETUP.md
 │   │   ├── case.json / source.sha256.json
 │   │   └── source/             # 75 文件桌面设计衍生基线
-│   └── 02-GPT6 介绍页滚动效果/    # 中文文章动效题与最小 starter
+│   ├── 02-GPT6 介绍页滚动效果/    # 中文文章动效题与最小 starter
+│   ├── 03-cyberpunk-tactics/    # 战棋题目与空白 starter，暂无评分器
+│   └── 04-creation-dialog-race/ # 双模式表单竞态与本地 mock 服务
 ├── reference/02-GPT6 介绍页滚动效果/ # 独立参考演示
 └── grader/
     ├── 00-intro/               # 评分器开发规范、模板
     ├── run.mjs                 # 所有用例/两种方式的统一入口
     ├── shared/                # 统一协议、结果 schema、校验、聚合、测试
     ├── 01-chatbot/
-    └── 02-GPT6 介绍页滚动效果/    # 两题各有 code 与 agent 适配器
+    ├── 02-GPT6 介绍页滚动效果/    # Case 01/02 各有 code 与 agent 适配器
+    └── 04-creation-dialog-race/ # code 行为评分器
 ```
 
 ## 1. 准备被测代码
 
-需要 Node 20+、npm、Python 3 和 Chromium。依赖安装需要联网；应用运行不需要模型 API、密钥、登录或后端。
+需要 Node 20+、npm、Python 3 和 Chromium。依赖安装需要联网；应用运行不需要模型 API、密钥或真实账号登录。Case 04 使用随 starter 提供的本地 mock 服务，无额外应用依赖。
 
 ```bash
 python3 tools/verify-source.py
@@ -75,7 +78,8 @@ node grader/run.mjs --case 01-chatbot --mode agent \
 
 - `passed / partial / failed`：已有证据，可计分
 - `pending / blocked / not_run`：分数为 `null`
-- code 65分，agent 35分；缺任何项，`final_score` 都是 `null`
+- Case 01/02：code 65分，agent 35分；缺任何项，`final_score` 都是 `null`
+- Case 04：仅使用 code 评分，分值与判定规则见该题 rubric；不要求额外模型 judge
 - 真实设备的键盘/安全区项需要 physical_device 证据；浏览器模拟不算
 - `agent-request.json` 和 `evidence-manifest.json` 可用于后续 judge
 - schema：`grader/shared/result.schema.json`；adapter协议：`adapter-result.schema.json`
@@ -115,3 +119,23 @@ python3 tools/create-candidate.py --case 03-cyberpunk-tactics /tmp/cyberpunk-can
 ```
 
 `starter/` 仅提供空白 HTML，不是游戏实现。本题暂未接入统一评分入口；不要对本题执行 `grader/run.mjs`。
+
+## Case 04：双模式创建弹窗与异步竞态
+
+题目提供带有竞态问题的创建弹窗与本地模板 mock 服务。被测 agent 需要修复模式切换、模板请求乱序或失败、关闭重开、字段保留及提交载荷一致性，不能仅通过禁用交互绕过问题。公开行为规则见 [TASK.md](case/04-creation-dialog-race/TASK.md)，运行与发题方法见 [SETUP.md](case/04-creation-dialog-race/SETUP.md)。
+
+```bash
+python3 tools/verify-source.py --case 04-creation-dialog-race
+python3 tools/create-candidate.py --case 04-creation-dialog-race /tmp/creation-dialog-candidate
+cd /tmp/creation-dialog-candidate
+node server.mjs
+```
+
+starter 无额外 npm 依赖，使用 Node 启动本地应用。向 coding agent 仅交付题目说明与候选源码，不交付 grader。完成修改后，在 benchmark 根目录运行（评分器依赖按上文安装）：
+
+```bash
+node grader/run.mjs --case 04-creation-dialog-race --mode code \
+  --candidate /tmp/creation-dialog-candidate --output /tmp/creation-dialog-result
+```
+
+如需使用已安装的系统浏览器，可追加 `--chromium /path/to/chromium`。本题的可重复交互由 code adapter 判定；具体证据与限制以本次 `result.json` 为准。starter 是待修复基线，不是参考答案。

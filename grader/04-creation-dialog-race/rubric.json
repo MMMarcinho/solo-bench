@@ -1,0 +1,13 @@
+{
+  "schema_version":"1.0","case_id":"04-creation-dialog-race","grader_version":"1.0.0",
+  "criteria":[
+    {"id":"manual_payload","method":"code","max_score":15},
+    {"id":"mode_isolation","method":"code","max_score":20},
+    {"id":"template_race","method":"code","max_score":20},
+    {"id":"dialog_lifecycle","method":"code","max_score":20},
+    {"id":"error_recovery","method":"code","max_score":15},
+    {"id":"validation","method":"code","max_score":10}
+  ],
+  "gates":[],
+  "pending_policy":"All six deterministic code criteria require evidence. No agent-judged criteria are assigned."
+}

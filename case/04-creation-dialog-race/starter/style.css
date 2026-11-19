@@ -1,0 +1,39 @@
+:root {
+  color-scheme: light;
+  font-family: system-ui, sans-serif;
+  color: #1c2640;
+  background: #f6f7fb;
+  --accent: #393cab;
+  --border: #d9deea;
+  --muted: #53617c;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; }
+.mast { display: flex; align-items: center; gap: .65rem; background: white; border-bottom: 1px solid var(--border); padding: .85rem max(1rem, calc((100vw - 58rem)/2)); white-space: nowrap; font-weight: 650; }
+.mark { display: grid; place-items: center; width: 1.8rem; height: 1.8rem; border-radius: .5rem; background: #e8e9ff; color: var(--accent); }
+main { max-width: 60rem; margin: auto; padding: clamp(2rem, 7vw, 5rem) 1rem; }
+.eyebrow { font-size: .75rem; letter-spacing: .18em; color: var(--accent); font-weight: 700; }
+h1 { margin: 0; font-size: 2.5rem; }
+.muted { color: var(--muted); }
+.empty { margin-top: 2rem; padding: 2rem 1rem; display: grid; justify-items: center; gap: 1rem; background: white; border-radius: 1rem; border: 1px solid var(--border); }
+dialog { width: min(30rem, calc(100% - 2rem)); max-height: calc(100% - 2rem); padding: clamp(1rem, 4vw, 1.65rem); border: 1px solid var(--border); border-radius: 1rem; color: inherit; box-shadow: 0 1.5rem 4rem #1f2b5240; }
+dialog::backdrop { background: #1f29467a; }
+h2 { margin: 0 0 1rem; }
+fieldset { margin: 0; padding: 0; border: 0; }
+legend, .field { font-weight: 650; }
+.modes { display: flex; flex-wrap: wrap; gap: .5rem; }
+.modes label { padding: .5rem; border: 1px solid var(--border); border-radius: .55rem; }
+.modes legend { margin-bottom: .4rem; }
+.field { display: grid; gap: .4rem; margin-top: 1rem; }
+button, select, input { font: inherit; }
+button, .field :is(input, select) { min-height: 2.75rem; padding: .5rem .75rem; border: 1px solid var(--border); border-radius: .55rem; background: #fff; color: inherit; }
+button { cursor: pointer; font-weight: 650; }
+button:disabled { cursor: default; opacity: .55; }
+.primary { background: var(--accent); color: white; border-color: var(--accent); }
+:focus-visible { outline: 2px solid #575ce3; outline-offset: 2px; }
+[data-testid="template-status"] { margin: .55rem 0; font-size: .9rem; color: var(--muted); }
+[data-state="error"], #submit-error { color: #943628; }
+.preview { padding: .7rem; margin-bottom: .65rem; background: #eef0fe; border-radius: .55rem; line-height: 1.5; }
+.preview p { margin: .25rem 0 0; }
+footer { margin-top: 1.25rem; display: flex; gap: .5rem; justify-content: flex-end; }

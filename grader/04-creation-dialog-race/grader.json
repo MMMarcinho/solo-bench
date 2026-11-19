@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0",
+  "case_id": "04-creation-dialog-race",
+  "code": {
+    "entrypoint": "code/run.mjs",
+    "timeout_ms": 120000
+  }
+}

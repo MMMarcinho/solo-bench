@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>项目空间</title>
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.mjs"></script>
+</head>
+<body>
+  <header class="mast"><span class="mark" aria-hidden="true">▤</span> 项目空间</header>
+  <main>
+    <p class="eyebrow">WORKSPACE</p>
+    <h1>项目</h1>
+    <p class="muted">手动配置，或从模板开始。</p>
+    <section class="empty" aria-label="创建项目">
+      <strong>从一个新项目开始</strong>
+      <button type="button" class="primary" data-testid="open-create">新建项目</button>
+      <p data-testid="create-result" role="status" hidden></p>
+    </section>
+  </main>
+  <dialog aria-labelledby="create-title" data-testid="create-dialog">
+    <form id="create-form">
+      <h2 id="create-title">新建项目</h2>
+      <fieldset class="modes">
+        <legend>创建方式</legend>
+        <label><input type="radio" name="mode" value="manual" data-testid="mode-manual" checked> 手动创建</label>
+        <label><input type="radio" name="mode" value="template" data-testid="mode-template"> 使用模板</label>
+      </fieldset>
+      <label class="field">项目名称
+        <input data-testid="name" type="text" required autocomplete="off" maxlength="80">
+      </label>
+      <label class="field" id="manual-fields">席位数
+        <input data-testid="seats" type="number" value="3" min="1" max="20" step="1" required>
+      </label>
+      <div id="template-fields" hidden>
+        <label class="field">项目模板
+          <select data-testid="template" disabled>
+            <option value="">请选择</option>
+            <option value="studio">创作工作室</option>
+            <option value="lab">实验小组</option>
+          </select>
+        </label>
+        <p data-testid="template-status" role="status" data-state="idle"></p>
+        <section data-testid="template-preview" class="preview" aria-label="模板预览" hidden></section>
+        <button type="button" data-testid="retry-template" hidden>重试加载</button>
+      </div>
+      <p id="submit-error" role="alert" hidden></p>
+      <footer>
+        <button type="button" data-testid="cancel">取消</button>
+        <button type="submit" class="primary" data-testid="submit" disabled>创建</button>
+      </footer>
+    </form>
+  </dialog>
+</body>
+</html>
