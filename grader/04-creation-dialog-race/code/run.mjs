@@ -4,6 +4,7 @@ import path from 'node:path';
 import {spawn} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {fingerprint,emptyCriterion} from '../../shared/core.mjs';
+import {runCriterion} from './criterion.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../../..');
 const id='04-creation-dialog-race';
 const task=JSON.parse(fs.readFileSync(path.join(root,'case',id,'case.json')));
@@ -50,10 +51,17 @@ async function fresh(){
  const ready=async title=>{await until(async()=>await t('template-status').getAttribute('data-state')==='ready','Current template never became ready');assert((await t('template-preview').innerText()).includes(title),'Preview does not show active response');assert((await t('template-preview').innerText()).includes(title+' description'),'Preview omits active description');};
  const submit=async()=>{if(await t('submit').isEnabled())await t('submit').click();await settle();};
  const noPost=async message=>{await submit();assert(posts.length===0,message);};
- const snapshot=async()=>({posts,requests:requests.map(q=>({id:q.id,settled:q.settled})),errors,body:await p.locator('body').innerText()});
- return {p,context,t,requests,posts,errors,settle,respond,select,ready,submit,noPost,snapshot};
+ const snapshot=()=>({posts:[...posts],requests:requests.map(q=>({id:q.id,settled:q.settled})),errors:[...errors]});
+ return {p,context,t,requests,posts,errors,settle,respond,select,ready,submit,noPost,snapshot,body:()=>p.locator('body').innerText()};
 }
-async function check(name,fn){let f;const spec=rubric.criteria.find(c=>c.id===name);try{f=await fresh();await fn(f);assert(f.errors.length===0,'Page threw: '+f.errors.join('; '));report.criteria.push({...spec,status:'passed',score:spec.max_score,evidence:[name+'.json',name+'.png'],reason:'All declared sequences passed using rendered controls and captured HTTP payloads.'});}catch(e){report.criteria.push({...spec,status:e.blocked?'blocked':'failed',score:e.blocked?null:0,evidence:[name+'.json'],reason:e.message});report.diagnostics.push({id:name,status:e.blocked?'blocked':'failed',message:e.message});}finally{if(f){let state;try{state=await f.snapshot();await f.p.screenshot({path:path.join(output,name+'.png')});}catch(e){state={error:e.message};}report.measurements[name]=state;fs.writeFileSync(path.join(output,name+'.json'),JSON.stringify(state,null,2)+'\n');await f.context.close();}else fs.writeFileSync(path.join(output,name+'.json'),JSON.stringify({error:'Browser fixture unavailable'})+'\n');}}
+async function check(name,fn){
+ const result=await runCriterion(rubric.criteria.find(c=>c.id===name),{
+  fresh,run:fn,write:(filename,data)=>fs.writeFileSync(path.join(output,filename),data),
+ });
+ report.criteria.push(result.criterion);
+ report.diagnostics.push(...result.diagnostics);
+ if(result.measurements)report.measurements[name]=result.measurements;
+}
 try{
  assert(fs.existsSync(path.join(candidate,'server.mjs')),'Missing required server.mjs entry point');
  let chromium;try{({chromium}=await import('playwright'));browser=await chromium.launch({headless:true,...(args['--chromium']?{executablePath:path.resolve(args['--chromium'])}:{})});}catch(e){throw blocked('Browser infrastructure unavailable: '+e.message);}

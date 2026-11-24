@@ -13,7 +13,7 @@ The adapter starts candidate `server.mjs` with `PORT=0`, reads its localhost URL
 | error_recovery | 15 | Active error feedback; enabled retry, fresh GET, loading/ready and successful submission. |
 | validation | 10 | Whitespace name; invalid/empty seats; absent/loading/failed template never submits; manual mode remains usable. |
 
-Each criterion is all-or-nothing. Evidence includes captured requests/payloads, UI text, screenshots and assertion reasons. Screenshots are not a visual-quality score. Locale, timezone and viewport are fixed. Synthetic titles distinguish responses from hardcoded fixture text. Aborting obsolete requests is accepted as well as ignoring their completion.
+Each criterion is all-or-nothing. Scored criteria reference saved JSON with captured requests/payloads, plus a screenshot when available. UI text and screenshots are supplemental; capture warnings do not replace structured evidence or change the score. If required structured evidence cannot be captured or saved, the criterion is blocked and has no score. Screenshots are not a visual-quality score. Locale, timezone and viewport are fixed. Synthetic titles distinguish responses from hardcoded fixture text. Aborting obsolete requests is accepted as well as ignoring their completion.
 
 Run from the repository root:
 
