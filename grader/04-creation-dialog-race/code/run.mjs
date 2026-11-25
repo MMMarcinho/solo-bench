@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import {openBrowserFixture} from './browser-fixture.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import {spawn} from 'node:child_process';
@@ -26,23 +27,23 @@ function blocked(message){const e=Error(message);e.blocked=true;return e;}
 function equal(a,b,message){assert(JSON.stringify(a)===JSON.stringify(b),message+': '+JSON.stringify(a));}
 function payloadEqual(a,b,message){equal(Object.keys(a||{}).sort(),Object.keys(b).sort(),message+' keys');for(const k of Object.keys(b))equal(a[k],b[k],message+' '+k);}
 async function fresh(){
- const context=await browser.newContext({viewport:{width:1100,height:800},locale:'en-US',timezoneId:'UTC',serviceWorkers:'block'});
- const p=await context.newPage();p.setDefaultTimeout(2200);
  const requests=[],posts=[],errors=[];
- await context.route('**/*',async route=>{
-  const req=route.request(),url=new URL(req.url());
-  if(url.origin!==origin)return route.abort();
-  if(/^\/api\/templates\/(studio|lab)$/.test(url.pathname)&&req.method()==='GET'){
-   requests.push({route,id:url.pathname.split('/').pop(),settled:false});return;
-  }
-  if(url.pathname==='/api/projects'&&req.method()==='POST'){
-   let body;try{body=req.postDataJSON();}catch{body={invalidJSON:req.postData()};}
-   posts.push(body);await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({id:'created-item',name:body.name,mode:body.mode})});return;
-  }
-  return route.continue();
+ const {context,p}=await openBrowserFixture(browser,origin,async (context,p)=>{
+  p.setDefaultTimeout(2200);
+  await context.route('**/*',async route=>{
+   const req=route.request(),url=new URL(req.url());
+   if(url.origin!==origin)return route.abort();
+   if(/^\/api\/templates\/(studio|lab)$/.test(url.pathname)&&req.method()==='GET'){
+    requests.push({route,id:url.pathname.split('/').pop(),settled:false});return;
+   }
+   if(url.pathname==='/api/projects'&&req.method()==='POST'){
+    let body;try{body=req.postDataJSON();}catch{body={invalidJSON:req.postData()};}
+    posts.push(body);await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({id:'created-item',name:body.name,mode:body.mode})});return;
+   }
+   return route.continue();
+  });
+  p.on('pageerror',e=>errors.push(e.message));
  });
- p.on('pageerror',e=>errors.push(e.message));
- await p.goto(origin,{waitUntil:'load'});
  const t=name=>p.getByTestId(name);
  const settle=async()=>{await p.waitForTimeout(100);};
  const respond=async(index,title,status=200)=>{await until(()=>requests[index],'Expected template request '+index);const q=requests[index];q.settled=true;try{await q.route.fulfill({status,contentType:'application/json',body:JSON.stringify(status===200?{id:q.id,title,description:title+' description'}:{error:'Synthetic failure'})});}catch(e){if(!/closed|disposed|cancel|abort|Invalid Interception/i.test(e.message))throw e;}await settle();};
