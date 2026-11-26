@@ -8,12 +8,14 @@ The adapter starts candidate `server.mjs` with `PORT=0`, reads its localhost URL
 | --- | ---: | --- |
 | manual_payload | 15 | Defaults; trimmed name, numeric seats and exact payload; success feedback and dismissal. |
 | mode_isolation | 20 | Draft preservation; empty initial selection; in-flight mode switching, fresh refetch and stale completion while loading; current preview and exact payload. |
-| template_race | 20 | Out-of-order successes, stale errors, active preview and submitted template. |
+| template_race | 20 | Out-of-order successes, stale errors, active preview and submitted template. The first stale success has a bounded observation window before the next selection. |
 | dialog_lifecycle | 20 | Cancel/reopen defaults; same template requested by different dialog generations; Escape/reopen defaults. |
 | error_recovery | 15 | Active error feedback; enabled retry, fresh GET, loading/ready and successful submission. |
 | validation | 10 | Whitespace name; invalid/empty seats; absent/loading/failed template never submits; manual mode remains usable. |
 
 Each criterion is all-or-nothing. Evidence includes captured requests/payloads, UI text, screenshots and assertion reasons. Screenshots are not a visual-quality score. Locale, timezone and viewport are fixed. Synthetic titles distinguish responses from hardcoded fixture text. Aborting obsolete requests is accepted as well as ignoring their completion.
+
+For the first out-of-order success, the grader observes preview and status mutations from before release through 350 ms after the response helper returns. It records the first unexpected state even if the UI later recovers. This checks a bounded interval, not every possible delay.
 
 Run from the repository root:
 
