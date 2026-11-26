@@ -1,5 +1,5 @@
 {
-  "schema_version":"1.0","case_id":"04-creation-dialog-race","grader_version":"1.0.0",
+  "schema_version":"1.0","case_id":"04-creation-dialog-race","grader_version":"1.0.1",
   "criteria":[
     {"id":"manual_payload","method":"code","max_score":15},
     {"id":"mode_isolation","method":"code","max_score":20},
